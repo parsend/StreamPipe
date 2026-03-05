@@ -35,19 +35,6 @@ no heavy external dependencies
 optional sse4.2 crc path
 ```
 
-```text
-github artifacts
-.github/workflows/ci.yml
-.gitignore
-Makefile
-docker/Dockerfile
-deploy/streampipe.service
-deploy/streampipe.env.example
-scripts/run-sim.sh
-scripts/release.sh
-scripts/install-service.sh
-```
-
 ```bash
 --mode sim|uart|spi|i2c
 --device /dev/ttyUSB0
@@ -63,14 +50,10 @@ scripts/install-service.sh
 ```bash
 cmake -S . -B build && cmake --build build
 sudo cp build/streampipe /usr/local/bin/
-sudo cp deploy/streampipe.service /etc/systemd/system/
-sudo cp deploy/streampipe.env.example /etc/streampipe/streampipe.env
-sudo systemctl daemon-reload
-sudo systemctl enable --now streampipe
 ```
 
 ```text
-extra docs
+extra files
 docs/quickstart.md
 CONTRIBUTING.md
 LICENSE
