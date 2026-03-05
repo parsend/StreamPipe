@@ -1,0 +1,17 @@
+build/
+bin/
+*.o
+*.a
+*.so
+*.log
+*.swp
+*~
+.vscode/
+.DS_Store
+.idea/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+.streampipe/
+streampipe.wal

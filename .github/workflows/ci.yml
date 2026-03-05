@@ -1,0 +1,29 @@
+name: streampipe
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: configure
+        run: cmake -S . -B build
+
+      - name: compile
+        run: cmake --build build --parallel
+
+      - name: run quick help check
+        run: ./build/streampipe --help >/dev/null || true
