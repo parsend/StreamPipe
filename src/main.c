@@ -1,3 +1,11 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 199309L
+#endif
+
 #include <pthread.h>
 #include <signal.h>
 #include <stdio.h>
@@ -109,7 +117,7 @@ static int sp_parse_args(int argc, char** argv, sp_config_t* cfg) {
         }
         if (strcmp(argv[i], "--help") == 0) {
             sp_print_help(argv[0]);
-            return -1;
+            return 1;
         }
 
         fprintf(stderr, "unknown option %s\n", argv[i]);
@@ -189,9 +197,12 @@ int main(int argc, char** argv) {
     sp_app_t app;
     memset(&app, 0, sizeof(app));
 
-    if (sp_parse_args(argc, argv, &app.cfg) != 0) {
-        sp_print_help(argv[0]);
+    int parse_rc = sp_parse_args(argc, argv, &app.cfg);
+    if (parse_rc < 0) {
         return 1;
+    }
+    if (parse_rc > 0) {
+        return 0;
     }
 
     if (sp_input_init(&app.input, &app.cfg) != 0) {

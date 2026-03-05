@@ -1,3 +1,15 @@
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 199309L
+#endif
+
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -26,6 +38,10 @@ static int32_t sp_sim_read(sp_input_t* input) {
 }
 
 static int sp_input_configure_uart(int fd) {
+    if (!isatty(fd)) {
+        return 0;
+    }
+
     struct termios tty;
     if (tcgetattr(fd, &tty) != 0) {
         return -1;

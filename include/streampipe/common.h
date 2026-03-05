@@ -1,6 +1,14 @@
 #ifndef STREAMPIPE_COMMON_H
 #define STREAMPIPE_COMMON_H
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 199309L
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <signal.h>
