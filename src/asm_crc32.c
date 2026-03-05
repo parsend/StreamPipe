@@ -1,3 +1,11 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 199309L
+#endif
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -14,16 +22,14 @@ uint32_t sp_crc32_fallback(const uint8_t* data, size_t len) {
 }
 
 uint32_t sp_crc32(const uint8_t* data, size_t len) {
+#if (defined(__x86_64__) || defined(__i386__)) && defined(__SSE4_2__)
     uint32_t crc = 0xFFFFFFFFu;
-#if defined(__x86_64__) || defined(__i386__)
-    uint8_t* p = (uint8_t*) data;
-#if defined(__SSE4_2__)
+    const uint8_t* p = (const uint8_t*) data;
     for (size_t i = 0; i < len; i++) {
         unsigned int value = p[i];
         asm volatile("crc32b %1, %0" : "+r"(crc) : "r"(value));
     }
     return crc ^ 0xFFFFFFFFu;
-#endif
 #endif
     return sp_crc32_fallback(data, len);
 }
